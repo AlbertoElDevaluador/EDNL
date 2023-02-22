@@ -1,0 +1,369 @@
+funcion: G x l -> F
+	M <- floyd(G)
+	F <- 0 //es una matriz vacia
+	
+	desde i<-1 hasta tamano_M
+		desde j<-1 hasta tamano_M
+			
+			si M[i][j] < l
+
+				F[i][j] <- false
+			si_no
+				F[i][j] <- true
+		fin_desde
+	fin_desde
+
+	devolver F
+
+//Al estar fuera se coge el mayor orden en este caso n3 al estar floyd fuera de los bucles.
+
+
+
+
+
+
+
+
+--Primer ejercicio DA--
+turista: G x n x t -> F
+	M <- Floyd(G)
+	F <- VACIO
+	
+	desde i<-0 hasta n
+		desde j<-0 hasta n
+			si M[i,j] < t
+				F[i,j]<-true
+			si_no 
+				F[i,j]<-false
+			fin_si
+		fin_desde
+	fin_desde
+	
+	devolver F
+
+--Segundo ejercicio DA--
+vias: G -> F
+	F<-VACIO
+	desde i<-0 hasta TAMANO
+		desde j<-0 hasta TAMANO
+			si G[i,j] == 1 || G[i,j] == 2
+				F[i,j]<-true
+			si_no
+				F[i,j]<-false
+		fin_desde
+	fin_desde
+	devolver F
+
+
+//Segundo corregido
+vias: G -> F
+	M<- VACIA
+	booleano<-true
+	desde i<-0 hasta TAMANO
+		desde j<-0 hasta TAMANO
+			si G[i,j] == 1 || G[i,j] == 2
+				G[i,j]<-0
+			si_no
+				G[i,j]<-1
+		fin_desde
+	fin_desde
+	M<-floyd(G)
+	desde i<-0 hasta TAMANO
+		desde j<-0 hasta TAMANO
+			si M[i,j] != 0 && booleano == true
+				booleano<-false
+		fin_desde
+	fin_desde
+	devolver F
+
+
+--Ejercicio Devorador fabrica de coches--
+
+coches: G x P x n x m -> S
+	encontrado <- false
+	Tam_P//es el tama;o del pedido
+	c<-0
+	S<-VACIO
+	
+	desde i<-0 hasta i == Tam_P || encontrado == true
+		si m == P[i]
+			encontrado<-true
+			c<-P[i]
+			S <- S U {c}
+			P <- P - {c}
+		fin_si
+	fin_desde
+
+	minimo <- inf
+	c <- VACIO
+	
+	mientras P != VACIO
+		desde i<-0 hasta i==Tam_P
+			si minimo > G[m,P[i]]
+				minimo <- G[m,P[i]]
+				c <- P[i]
+			fin_si
+		fin_desde
+
+		S<- S U {c}
+		P<- P - {c}
+		minimo <- inf
+		c <- VACIA
+		
+	fin_mientras	
+
+	devolver S
+
+fin_coches
+
+
+
+--Ejercicios Canoa--
+canoa: G x n -> S
+
+	S<-floyd(G)
+		
+	devolver S
+
+--Escapar de la policia--
+policia: M x m x n -> S
+	S<-VACIO
+	V[m,n]<-VACIA
+	k<-0
+	salir<-false
+	maximo<-0
+	c<-0
+
+	desde i<-1 hasta m
+		k<-i
+		desde j<-1 hasta n
+			V[i,j]<-0
+			si M[k,j] == 0
+				desde k hasta m || salir == true
+					si M[k,j] == 0
+						V[i,j]<- V[i,j] + 1
+					si_no
+						salir<-true
+					fin_si
+				fin_desde
+
+				salir<-false
+			fin_si
+			
+			
+		fin_desde
+	fin_desde
+
+	
+	desde i<-1 hasta m
+		maximo<-inf
+		c<- VACIA
+		desde j<-1 hasta n
+			si maximo < V[i,j] 
+				maximo<- V[i,j]
+				c<-j
+			fin_si
+		fin_desde
+		
+		S<- S U {c}
+	fin_desde
+	
+	devolver S
+	
+			
+					
+
+--Nave espacial--
+nave: M x n -> S
+	V[n,n]<- VACIA
+	bandera<-false	
+	c<-0
+
+	desde i<-n hasta i<-0
+		desde j<-n hasta j<-0
+			V[i,j]<-0
+			bandera<-false
+
+			si M[i,j] == 0
+				k<-i
+				desde k hasta k<-0 || bandera == true
+					si M[i,j] == 0
+						V[i,j]<-V[i,j] + 1
+					si_no
+						bandera<-true
+					fin_si
+				fin_desde
+				bandera<-false
+			fin_si
+		fin_desde
+	fin_desde
+
+	maximo<-inf
+	c<- VACIA
+	desde j<-1 hasta n
+		si maximo < V[n,j] 
+			maximo<- V[n,j]
+			c<-j
+		fin_si
+	fin_desde
+		
+	S<- S U {c}
+
+	desde i<-n hasta i==1
+		si V[i-1,c] < V[i-1,c-1] || V[i-1,c] < V[i-1,c+1]
+
+			si V[i-1,c] < V[i-1,c-1] && V[i-1,c] < V[i-1,c+1]
+				si V[i-1,c-1] > V[i-1,c+1]
+					c <- c - 1
+					S <- S U {c}
+				si_no
+					c <- c + 1
+					S <- S U {c}
+				fin_si
+			fin_si
+			
+			si V[i-1,c] < V[i-1,c-1]
+				c <- c - 1
+				S <- S U {c}
+			si_no
+				c <- c + 1
+				S <- S U {c}
+			fin_si
+		si_no
+			S <- S U {c}
+		fin_si
+	fin_desde
+
+	devolver S
+
+fin_naves
+
+
+
+--N Reinas-- 
+n_reinas: T x Tam x n -> S
+	
+	S<-VACIA
+	amenazado<-false
+
+	desde i<-1 hasta n
+		desde j<-1 hasta n
+			T[i,j]<-coste(i,j)
+		fin_desde
+	fin_desde
+
+	minimo<-1
+	candidato <- VACIO
+
+	mientras n != 0 && T != VACIO
+
+		desde i<-1 hasta n
+			desde j<-1 hasta n
+				si minimo > T[i,j]
+					minimo <- T[i,j]
+					candidato <- <i,j>
+				fin_si
+			fin_desde
+		fin_desde
+		
+		T <- T - {candidato} 		
+
+		desde k<- 1 hasta tam(S) || amenazado == true
+			si amanaza(S[k], <candidato>) == true
+				amenazado <- true
+			fin_si
+		fin_desde
+		
+		si amenazado != true
+			S <- S U {<candidato>}
+		si_no
+			amenazado <- false
+		fin_si
+		
+		minimo <- 1
+		candidato <-VACIO
+
+	fin_mientras
+	
+	devolver S
+fin_n_reinas
+		
+		
+
+---Auditoria---
+
+auditoria: G x n x c -> S
+	M <- floyd(G)
+	S <- VACIO
+
+	desde i<-1 hasta n
+		desde j<-1 hasta n
+			si M[i,j] < c
+				S <- S U {<i,j>}
+			fin_si
+		fin_desde
+	fin_desde
+	
+	devolver S
+fin_auditoria
+
+
+
+
+
+--Grafos Examen Febrero 2022--
+
+Matriz <peso, color> <- M[i,j]
+
+funcion: n x M x C -> S
+	S <- 0
+	
+	desde i <- 1 hasta n
+		desde j <-1 hasta n
+			si <color> <- M[i,j] == C
+				M[i,j] <- <infinito, C>
+	
+	S <- floyd(M)
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
